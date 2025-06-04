@@ -1,0 +1,296 @@
+{% extends "admin/layout.html" %}
+{% block content %}
+<div class="container-fluid px-4">
+  <!-- Welcome Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card bg-gradient-primary text-white shadow-lg border-0">
+        <div class="card-body p-4">
+          <div class="row align-items-center">
+            <div class="col-lg-8">
+              <h1 class="display-5 fw-bold mb-2">
+                <i class="bi bi-speedometer2 me-3"></i>
+                Selamat datang, Admin {{ session['username'] }}
+              </h1>
+              <p class="lead mb-0 opacity-90">
+                Kelola sistem restoran Anda dengan mudah melalui dashboard admin ini
+              </p>
+            </div>
+            <div class="col-lg-4 text-end d-none d-lg-block">
+              <div class="dashboard-icon">
+                <i class="bi bi-house-gear-fill" style="font-size: 4rem; opacity: 0.3;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                Total Pesanan Hari Ini
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ today_orders or 0 }}</div>
+            </div>
+            <div class="col-auto">
+              <i class="bi bi-cart-check-fill fa-2x text-primary"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                Pendapatan Hari Ini
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                Rp {{ "{:,}".format(today_revenue or 0) }}
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="bi bi-currency-exchange fa-2x text-success"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                Total Transaksi
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_transaksi or 0 }}</div>
+            </div>
+            <div class="col-auto">
+              <i class="bi bi-receipt fa-2x text-info"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                Total Item Terjual
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_items or 0 }}</div>
+            </div>
+            <div class="col-auto">
+              <i class="bi bi-box-seam fa-2x text-warning"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+          <h5 class="m-0 font-weight-bold text-primary">
+            <i class="bi bi-lightning-charge-fill me-2"></i>
+            Aksi Cepat
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 mb-3">
+              <a href="{{ url_for('admin_pesanan') }}" class="btn btn-outline-primary btn-lg w-100 h-100 d-flex flex-column justify-content-center">
+                <i class="bi bi-cart-check-fill mb-2" style="font-size: 2rem;"></i>
+                <span>Kelola Pesanan</span>
+              </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+              <a href="{{ url_for('laporan_penjualan') }}" class="btn btn-outline-success btn-lg w-100 h-100 d-flex flex-column justify-content-center">
+                <i class="bi bi-graph-up-arrow mb-2" style="font-size: 2rem;"></i>
+                <span>Laporan Penjualan</span>
+              </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+              <a href="#" class="btn btn-outline-info btn-lg w-100 h-100 d-flex flex-column justify-content-center" onclick="alert('Fitur dalam pengembangan')">
+                <i class="bi bi-menu-button-wide-fill mb-2" style="font-size: 2rem;"></i>
+                <span>Kelola Menu</span>
+              </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+              <a href="#" class="btn btn-outline-warning btn-lg w-100 h-100 d-flex flex-column justify-content-center" onclick="alert('Fitur dalam pengembangan')">
+                <i class="bi bi-people-fill mb-2" style="font-size: 2rem;"></i>
+                <span>Kelola Pelanggan</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity & System Status -->
+  <div class="row">
+    <div class="col-lg-8 mb-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+          <h5 class="m-0 font-weight-bold text-primary">
+            <i class="bi bi-clock-history me-2"></i>
+            Aktivitas Terbaru
+          </h5>
+          <small class="text-muted">{{ current_time.strftime('%d %B %Y, %H:%M') if current_time else '' }}</small>
+        </div>
+        <div class="card-body">
+          <div class="timeline">
+            {% if recent_activities %}
+              {% for activity in recent_activities %}
+                <div class="timeline-item mb-3">
+                  <div class="row">
+                    <div class="col-auto">
+                      <div class="timeline-badge bg-primary">
+                        <i class="bi bi-circle-fill"></i>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="timeline-content">
+                        <h6 class="mb-1">{{ activity.title }}</h6>
+                        <p class="text-muted mb-1">{{ activity.description }}</p>
+                        <small class="text-muted">{{ activity.time }}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="text-center py-4">
+                <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
+                <p class="text-muted mt-2">Belum ada aktivitas terbaru</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 mb-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header bg-white py-3">
+          <h5 class="m-0 font-weight-bold text-primary">
+            <i class="bi bi-gear-fill me-2"></i>
+            Status Sistem
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span>Server Status</span>
+            <span class="badge bg-success">Online</span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span>Database</span>
+            <span class="badge bg-success">Connected</span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span>Backup Terakhir</span>
+            <span class="badge bg-info">{{ last_backup or '2 jam lalu' }}</span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span>Versi Aplikasi</span>
+            <span class="badge bg-secondary">v1.0.0</span>
+          </div>
+          
+          <hr>
+          
+          <div class="text-center">
+            <h6 class="text-muted mb-3">Akses Cepat</h6>
+            <div class="btn-group-vertical w-100">
+              <a href="#" class="btn btn-outline-secondary btn-sm mb-2" onclick="alert('Fitur dalam pengembangan')">
+                <i class="bi bi-gear me-1"></i> Pengaturan
+              </a>
+              <a href="#" class="btn btn-outline-secondary btn-sm mb-2" onclick="alert('Fitur dalam pengembangan')">
+                <i class="bi bi-cloud-arrow-up me-1"></i> Backup Data
+              </a>
+              <a href="#" class="btn btn-outline-secondary btn-sm" onclick="alert('Fitur dalam pengembangan')">
+                <i class="bi bi-file-text me-1"></i> Log Sistem
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.timeline-badge {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.timeline-badge i {
+  font-size: 6px;
+}
+
+.card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-success:hover,
+.btn-outline-info:hover,
+.btn-outline-warning:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.dashboard-icon {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.fa-2x {
+  font-size: 2rem;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard - Restoran</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Tambahkan Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    body {
+      overflow-x: hidden;
+    }
+    .sidebar {
+      min-height: 100vh;
+      background-color: #f8f9fa;
+    }
+    .sidebar .nav-link.active {
+      font-weight: bold;
+      color: #0d6efd;
+    }
+    /* Tambahan style untuk tabel laporan */
+    .table th {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+    }
+    .table td {
+      vertical-align: middle;
+    }
+    .card-title {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    .display-6 {
+      font-size: 1.75rem;
+      font-weight: 600;
+    }
+    .summary-card {
+      transition: transform 0.3s;
+    }
+    .summary-card:hover {
+      transform: translateY(-5px);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main layout -->
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav class="col-md-3 col-lg-2 d-md-block sidebar p-3">
+        <div class="position-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a href="{{ url_for('admin_dashboard') }}" class="nav-link {% if request.endpoint == 'admin_dashboard' %}active{% endif %}">
+                <i class="bi bi-speedometer2 me-2"></i>Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url_for('menu_list') }}" class="nav-link {% if request.endpoint == 'menu_list' %}active{% endif %}">
+                <i class="bi bi-menu-button-wide me-2"></i>Kelola Menu
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url_for('pelanggan_list') }}" class="nav-link {% if request.endpoint == 'pelanggan_list' %}active{% endif %}">
+                <i class="bi bi-people me-2"></i>Kelola User
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url_for('admin_pesanan') }}" class="nav-link {% if request.endpoint == 'admin_pesanan' %}active{% endif %}">
+                <i class="bi bi-cart me-2"></i>Pesanan
+                {% if total_menunggu is defined and total_menunggu|int > 0 %}
+                  <span class="badge bg-danger ms-2">{{ total_menunggu }}</span>
+                {% endif %}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url_for('laporan_penjualan') }}" class="nav-link {% if request.endpoint == 'laporan_penjualan' %}active{% endif %}">
+                <i class="bi bi-graph-up me-2"></i>Laporan
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main content -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} mt-2">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}
+        <!-- Konten default jika tidak ada override -->
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Dashboard</h1>
+        </div>
+        {% endblock %}
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
